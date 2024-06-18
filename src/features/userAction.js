@@ -1,9 +1,9 @@
-import { postNewUser } from "./userAxios";
+import { postNewUser, verifyUserLink } from "./userAxios";
 import { toast } from "react-toastify";
 
 const apiProcessWithToast = async (obj, func) => {
   const pending = func(obj);
-  toast.pending(pending, {
+  toast.promise(pending, {
     pending: "please wait...",
   });
   const response = await pending;
@@ -11,5 +11,9 @@ const apiProcessWithToast = async (obj, func) => {
   return response;
 };
 export const createNewAdminAction = async (userData) => {
-  return apiProcessWithToast(userData, postNewUser);
+  apiProcessWithToast(userData, postNewUser);
+};
+
+export const verifyUserLinkAction = async (data) => {
+  apiProcessWithToast(data, verifyUserLink);
 };

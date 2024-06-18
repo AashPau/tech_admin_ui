@@ -1,13 +1,20 @@
 import { Button, Form } from "react-bootstrap";
 import { CustomInput } from "../../components/common/customInput/CustomInput";
 import useForm from "../../hooks/useForm";
+import { createNewAdminAction } from "../../features/userAction";
+import { toast } from "react-toastify";
 
 export const Register = () => {
   const { form, setForm, handleOnChange } = useForm({});
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
+    const { confirmPassword, ...rest } = form;
+    console.log(form);
+    if (confirmPassword !== rest.password) {
+      return toast.error("Passwords donot match");
+    }
+    createNewAdminAction(rest);
   };
 
   const inputs = [
@@ -47,8 +54,8 @@ export const Register = () => {
     },
     {
       label: "Confirm Password",
-      name: "password",
-      type: "confirmPassword",
+      name: "confirmPassword",
+      type: "password",
       required: true,
       placeholder: "******",
     },

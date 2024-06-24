@@ -18,3 +18,21 @@ export const verifyUserLink = (data) => {
   };
   return apiProcessor(axiosObj);
 };
+
+export const userLogin = (data) => {
+  const axiosObj = {
+    url: userEP + "/login",
+    method: "post",
+    data,
+    showToast: true,
+  };
+  return apiProcessor(axiosObj);
+};
+export const fetchUserProfile = () => {
+  const axiosObj = {
+    url: userEP,
+    method: "get",
+    isPrivate: true,
+  };
+  return apiProcessor(axiosObj);
+};

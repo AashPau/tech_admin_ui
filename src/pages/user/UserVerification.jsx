@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Alert, Spinner } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
-import { verifyUserLinkAction } from "../../features/userAction";
+import { verifyUserLinkAction } from "../../features/user/userAction";
 
 export const UserVerification = () => {
   const [resp, setResp] = useState({});

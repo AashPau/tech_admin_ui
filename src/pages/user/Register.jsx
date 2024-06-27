@@ -1,7 +1,7 @@
 import { Button, Form } from "react-bootstrap";
 import { CustomInput } from "../../components/common/customInput/CustomInput";
 import useForm from "../../hooks/useForm";
-import { createNewAdminAction } from "../../features/userAction";
+import { createNewAdminAction } from "../../features/user/userAction";
 import { toast } from "react-toastify";
 
 export const Register = () => {

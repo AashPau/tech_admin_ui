@@ -1,10 +1,10 @@
 import { Button, Form } from "react-bootstrap";
 import { CustomInput } from "../../components/common/customInput/CustomInput";
 import useForm from "../../hooks/useForm";
-import { createNewAdminAction } from "../../features/userAction";
+import { loginAdminAction } from "../../features/user/userAction";
 import { toast } from "react-toastify";
-import { forwardRef, useEffect, useRef } from "react";
-import { apiProcessor } from "../../services/axiosHelper";
+import { useEffect, useRef } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -18,6 +18,10 @@ export const Login = () => {
   const { user } = useSelector((state) => state.userInfo);
 
   const redirectTo = "admin/dashboard";
+
+  useEffect(() => {
+    user?._id && navigate(redirectTo);
+  }, [user?._id, navigate]);
 
   const handleOnSubmit = (e) => {
     e.preventDefault();

@@ -5,6 +5,7 @@ import {
   verifyUserLink,
 } from "./userAxios";
 import { toast } from "react-toastify";
+import { setUser } from "./userSlice";
 
 const apiProcessWithToast = async (obj, func) => {
   const pending = func(obj);
@@ -39,5 +40,18 @@ export const fetchUserProfileAction = () => async (dispatch) => {
   const { status, userInfo } = await fetchUserProfile();
   if (status === "success") {
     //mopunt user in the redux-store
+    dispatch(setUser(userInfo));
+  }
+};
+
+export const autoLoginAction = () => async (dispatch) => {
+  const accessJWT = sessionStorage.getItem("accessJWT");
+  const refreshJWT = localStorage.getItem("refreshJWT");
+  if (accessJWT) {
+    return dispatch(fetchUserProfileAction());
+  }
+
+  if (refreshJWT) {
+    const response = await getNew;
   }
 };

@@ -1,5 +1,7 @@
 import {
   fetchUserProfile,
+  getNewAccessJWT,
+  logoutUser,
   postNewUser,
   userLogin,
   verifyUserLink,
@@ -21,15 +23,15 @@ export const createNewAdminAction = async (userData) => {
 };
 
 export const verifyUserLinkAction = async (data) => {
-  apiProcessWithToast(data, verifyUserLink);
+  return apiProcessWithToast(data, verifyUserLink);
 };
 
 export const loginAdminAction = (data) => async (dispatch) => {
   const { jwts } = await userLogin(data);
 
   if (jwts?.acessJWT && jwts?.refreshJWT) {
-    sessionStorage.setItem(jwts.accessJWT),
-      localStorage.setItem(jwts.refreshJWT);
+    sessionStorage.setItem("accessJWT", jwts.accessJWT);
+    localStorage.setItem("refreshJWT", jwts.refreshJWT);
 
     dispatch(fetchUserProfileAction());
   }
@@ -52,6 +54,21 @@ export const autoLoginAction = () => async (dispatch) => {
   }
 
   if (refreshJWT) {
-    const response = await getNew;
+    // get a new access jwt then call get user method
+    const response = await getNewAccessJWT();
+
+    if (response?.accessJWT) {
+      sessionStorage.setItem("accessJWT", response.accessJWT);
+      dispatch(fetchUserProfileAction());
+    }
   }
+};
+
+export const logoutUserAction = () => (dispatch) => {
+  //call api with authorization for backend logout
+  logoutUser();
+  //frontend logout
+  dispatch(setUser({}));
+  localStorage.removeItem("refresHJWT");
+  sessionStorage.removeItem("accessJWT");
 };

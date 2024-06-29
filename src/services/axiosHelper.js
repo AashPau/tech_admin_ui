@@ -1,8 +1,13 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { getNewAccessJWT } from "../features/user/userAxios";
 
 const getAccessJWT = () => {
   return sessionStorage.getItem("accessJWT");
+};
+
+const getRefreshJWT = () => {
+  return localStorage.getItem("refreshJWT");
 };
 
 export const apiProcessor = async ({
@@ -10,13 +15,13 @@ export const apiProcessor = async ({
   url,
   data,
   isPrivate,
-  isRefreshHwt,
+  isRefreshJwt,
   showToast,
 }) => {
   try {
     const headers = isPrivate
       ? {
-          Authorization: getAccessJWT(),
+          Authorization: isRefreshJwt ? getRefreshJWT() : getAccessJWT(),
         }
       : null;
     const pending = axios({
@@ -37,6 +42,29 @@ export const apiProcessor = async ({
     }
     return response.data;
   } catch (error) {
+    if (error.response?.data?.message === "jwt expired") {
+      //renew the access toekn and call the same server agian
+
+      const response = await getNewAccessJWT();
+
+      console.log(response);
+
+      if (response.accessJWT) {
+        sessionStorage.setItem("accessJWT", response.accessJWT);
+        return apiProcessor({
+          method,
+          url,
+          data,
+          isPrivate,
+          isRefreshJwt,
+          showToast,
+        });
+      }
+    }
+    if (error.response?.status === 401) {
+      sessionStorage.removeItem("accessJWT");
+      localStorage.removeItem("refreshJWT");
+    }
     showToast && toast.error(error.message);
     return {
       status: "error",

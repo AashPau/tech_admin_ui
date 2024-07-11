@@ -2,39 +2,39 @@ import { apiProcessor } from "../../services/axiosHelper";
 const userEP = import.meta.env.VITE_ROOTSERVER + "/api/v1/user";
 
 export const postNewUser = (data) => {
-  const axiosObj = {
+  const obj = {
     url: userEP,
     method: "post",
     data,
     //isPrivate:true
   };
-  return apiProcessor(axiosObj);
+  return apiProcessor(obj);
 };
 export const verifyUserLink = (data) => {
-  const axiosObj = {
+  const obj = {
     url: userEP + "/user-verification",
     method: "post",
     data,
   };
-  return apiProcessor(axiosObj);
+  return apiProcessor(obj);
 };
 
 export const userLogin = (data) => {
-  const axiosObj = {
+  const obj = {
     url: userEP + "/login",
     method: "post",
     data,
     showToast: true,
   };
-  return apiProcessor(axiosObj);
+  return apiProcessor(obj);
 };
 export const fetchUserProfile = () => {
-  const axiosObj = {
+  const obj = {
     url: userEP,
     method: "get",
     isPrivate: true,
   };
-  return apiProcessor(axiosObj);
+  return apiProcessor(obj);
 };
 
 export const getNewAccessJWT = () => {

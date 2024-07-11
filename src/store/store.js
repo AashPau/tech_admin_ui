@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "../features/users/userSlice";
+import userReducer from "../features/user/userSlice";
 
 import systemReducer from "./systemSlice";
 import catReducer from "../features/categories/catSlice";

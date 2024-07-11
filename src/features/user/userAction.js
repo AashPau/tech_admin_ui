@@ -27,9 +27,9 @@ export const verifyUserLinkAction = async (data) => {
 };
 
 export const loginAdminAction = (data) => async (dispatch) => {
-  const { jwts } = await userLogin(data);
+  const { status, jwts } = await userLogin(data);
 
-  if (jwts?.acessJWT && jwts?.refreshJWT) {
+  if (jwts?.accessJWT && jwts?.refreshJWT) {
     sessionStorage.setItem("accessJWT", jwts.accessJWT);
     localStorage.setItem("refreshJWT", jwts.refreshJWT);
 
@@ -39,6 +39,7 @@ export const loginAdminAction = (data) => async (dispatch) => {
 };
 
 export const fetchUserProfileAction = () => async (dispatch) => {
+  console.log("it works");
   const { status, userInfo } = await fetchUserProfile();
   if (status === "success") {
     //mopunt user in the redux-store

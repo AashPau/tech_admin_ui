@@ -1,27 +1,27 @@
 import { Button, Form } from "react-bootstrap";
 import { CustomInput } from "../../components/common/customInput/CustomInput";
-import useForm from "../../hooks/useForm";
 import { loginAdminAction } from "../../features/user/userAction";
 import { toast } from "react-toastify";
 import { useEffect, useRef } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-export const Login = () => {
+const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const emailRef = useRef("");
   const passRef = useRef("");
 
   const { user } = useSelector((state) => state.userInfo);
 
-  const redirectTo = "admin/dashboard";
+  const redirectTo = location?.state?.from?.pathname || "/admin/dashboard";
 
   useEffect(() => {
     user?._id && navigate(redirectTo);
-  }, [user?._id, navigate]);
+  }, [user?._id]);
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
@@ -33,6 +33,7 @@ export const Login = () => {
     }
     //call server to process the authentication
     // const response = await apiProcessor
+    dispatch(loginAdminAction({ email, password }));
   };
 
   const inputs = [
@@ -73,3 +74,5 @@ export const Login = () => {
     </div>
   );
 };
+
+export default Login;

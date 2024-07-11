@@ -15,13 +15,13 @@ export const apiProcessor = async ({
   url,
   data,
   isPrivate,
-  isRefreshJwt,
+  isRefreshJWT,
   showToast,
 }) => {
   try {
     const headers = isPrivate
       ? {
-          Authorization: isRefreshJwt ? getRefreshJWT() : getAccessJWT(),
+          Authorization: isRefreshJWT ? getRefreshJWT() : getAccessJWT(),
         }
       : null;
     const pending = axios({
@@ -56,7 +56,7 @@ export const apiProcessor = async ({
           url,
           data,
           isPrivate,
-          isRefreshJwt,
+          isRefreshJWT,
           showToast,
         });
       }
